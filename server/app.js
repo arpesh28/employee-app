@@ -9,7 +9,7 @@ const Employee = mongoose.model('employee');
 const mongoUri =
   'mongodb://arpesh:arpesh1234@cluster0-shard-00-00.vklxf.mongodb.net:27017,cluster0-shard-00-01.vklxf.mongodb.net:27017,cluster0-shard-00-02.vklxf.mongodb.net:27017/employee?ssl=true&replicaSet=atlas-4zwk9r-shard-0&authSource=admin&retryWrites=true&w=majority';
 
-mongoose.connect(mongoUri, {
+mongoose.connect(process.env.MONGODB_URI || mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -86,7 +86,7 @@ app.post('/update', (req, res) => {
     });
 });
 
-let PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log('server running');
