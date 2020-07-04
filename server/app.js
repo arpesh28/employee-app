@@ -86,6 +86,8 @@ app.post('/update', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
+let PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
   console.log('server running');
 });
