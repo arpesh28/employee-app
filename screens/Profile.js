@@ -7,6 +7,7 @@ import {
   Linking,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Title, Paragraph, Card, Button } from 'react-native-paper';
@@ -14,20 +15,43 @@ import { FontAwesome5, Ionicons, Foundation } from '@expo/vector-icons';
 
 const Profile = (props) => {
   const {
-    id,
+    _id,
     name,
     picture,
     salary,
     position,
     github,
+    linkedIn,
+    about,
     email,
     phone,
   } = props.route.params.item;
+
+  const deleteEmployee = () => {
+    fetch('http://12df0411852e.ngrok.io/delete', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: _id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((deletedEmp) => {
+        Alert.alert(`${deletedEmp.name} deleted `);
+        props.navigation.navigate('Home');
+      })
+      .catch((err) => {
+        Alert.alert('Error while uploading');
+      });
+  };
+
   const openDial = () => {
     if (Platform.OS === 'android') {
-      Linking.openURL('tel:855292119');
+      Linking.openURL(`tel:${phone}`);
     } else {
-      Linking.openURL('telprompt:855201923');
+      Linking.openURL(`telprompt:${phone}`);
     }
   };
   return (
@@ -71,88 +95,99 @@ const Profile = (props) => {
             name='linkedin'
             style={styles.icons}
             onPress={() => {
-              Linking.openURL(
-                'https://in.linkedin.com/in/arpesh-gadekar-416378170'
-              );
+              Linking.openURL(linkedIn);
             }}
           />
         </View>
       </View>
-      <View style={{ marginLeft: 25, marginRight: 25 }}>
-        <Title style={{ color: '#0d3330', marginBottom: 5 }}>About</Title>
-        <Paragraph
-          style={{
-            lineHeight: 25,
-            marginTop: 5,
-            color: '#0d3330',
-            fontSize: 16,
-          }}
-        >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas maxime
-          esse dolorum. Modi necessitatibus velit tempore ratione odit eaque
-          error.
-        </Paragraph>
-        <View
-          style={{
-            marginTop: 20,
-          }}
-        >
-          <Card
-            style={[
-              styles.cardStyle,
-              { borderBottomWidth: 1, borderBottomColor: '#cee0de' },
-            ]}
-            onPress={() => {
-              Linking.openURL('mailto:arpeshgadekar@gmail.com');
+      <ScrollView>
+        <View style={{ marginLeft: 25, marginRight: 25, marginBottom: 50 }}>
+          <Title style={{ color: '#0d3330', marginBottom: 5 }}>About</Title>
+          <Paragraph
+            style={{
+              lineHeight: 25,
+              marginTop: 5,
+              color: '#0d3330',
+              fontSize: 16,
             }}
           >
-            <View style={styles.cardView}>
-              <FontAwesome5
-                name='long-arrow-alt-right'
-                style={styles.cardArrows}
-              />
-              <Ionicons name='md-mail-open' style={styles.CardIcons} />
-              <Text style={styles.cardText}>{email}</Text>
-            </View>
-          </Card>
-          <Card style={styles.cardStyle} onPress={() => openDial()}>
-            <View style={styles.cardView}>
-              <FontAwesome5
-                name='long-arrow-alt-right'
-                style={styles.cardArrows}
-              />
-              <Foundation name='telephone' style={styles.CardIcons} />
-              <Text style={styles.cardText}>{phone}</Text>
-            </View>
-          </Card>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 30,
-          }}
-        >
-          <Button
-            icon='square-edit-outline'
-            color='#00b8ae'
-            borderColor='#00b8ae'
-            mode='outlined'
-            onPress={() => console.log('pressed')}
-            style={styles.btn}
+            {about}
+          </Paragraph>
+          <View
+            style={{
+              marginTop: 20,
+            }}
           >
-            Edit
-          </Button>
-          <Button
-            icon='delete-empty'
-            mode='contained'
-            onPress={() => console.log('pressed')}
-            style={styles.buttonextra}
+            <Card
+              style={[
+                styles.cardStyle,
+                { borderBottomWidth: 1, borderBottomColor: '#cee0de' },
+              ]}
+              onPress={() => {
+                Linking.openURL(`mailto:${email}`);
+              }}
+            >
+              <View style={styles.cardView}>
+                <FontAwesome5
+                  name='long-arrow-alt-right'
+                  style={styles.cardArrows}
+                />
+                <Ionicons name='md-mail-open' style={styles.CardIcons} />
+                <Text style={styles.cardText}>{email}</Text>
+              </View>
+            </Card>
+            <Card style={styles.cardStyle} onPress={() => openDial()}>
+              <View style={styles.cardView}>
+                <FontAwesome5
+                  name='long-arrow-alt-right'
+                  style={styles.cardArrows}
+                />
+                <Foundation name='telephone' style={styles.CardIcons} />
+                <Text style={styles.cardText}>{phone}</Text>
+              </View>
+            </Card>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: 30,
+            }}
           >
-            Fire
-          </Button>
+            <Button
+              icon='square-edit-outline'
+              color='#00b8ae'
+              borderColor='#00b8ae'
+              mode='outlined'
+              onPress={() => {
+                props.navigation.navigate('Create', {
+                  _id,
+                  name,
+                  picture,
+                  salary,
+                  position,
+                  github,
+                  email,
+                  about,
+                  linkedIn,
+                  phone,
+                });
+              }}
+              style={styles.btn}
+            >
+              Edit
+            </Button>
+            <Button
+              icon='delete-empty'
+              mode='contained'
+              onPress={() => deleteEmployee()}
+              style={styles.buttonextra}
+            >
+              Fire
+            </Button>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };

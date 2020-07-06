@@ -1,44 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { Card, FAB, Title } from 'react-native-paper';
 
 const Home = ({ navigation }) => {
-  const data = [
-    {
-      id: '1',
-      name: 'Saiesh Volvaikar',
-      email: 'saiesvolvo@gmail.com',
-      salary: '5 LPA',
-      phone: '7879334091',
-      github: 'https://github.com/saieshvolvo',
-      picture: 'https://avatars1.githubusercontent.com/u/17901047?s=460&v=4',
-      position: 'UI/UX Designer',
-    },
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    {
-      id: '2',
-      name: 'Arpesh Gadekar',
-      email: 'arpeshgadekar@gmail.com',
-      salary: '8 LPA',
-      phone: '8552056578',
-      github: 'https://github.com/omkarvaigankar8',
-      picture:
-        'https://avatars0.githubusercontent.com/u/44309224?s=460&u=54a6f391c5f4be160ee9664b3866b4ca7c135683&v=4',
-      position: 'Web Developer',
-    },
+  const fetchData = () => {
+    fetch('http://12df0411852e.ngrok.io')
+      .then((res) => res.json())
+      .then((results) => {
+        setData(results);
+        setLoading(false);
+      })
+      .catch((err) => {
+        Alert.alert('Something went wrong');
+      });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    {
-      id: '3',
-      name: 'Omkar Vaigankar',
-      email: 'omkarvaigankar02@gmail.com',
-      salary: '16 LPA',
-      phone: '95620565329',
-      github: 'https://github.com/omkarvaigankar8',
-      picture:
-        'https://image.freepik.com/free-vector/cartoon-happy-frog-white_29190-5560.jpg',
-      position: 'Web Developer',
-    },
-  ];
   const renderList = (item) => {
     return (
       <Card
@@ -74,7 +64,9 @@ const Home = ({ navigation }) => {
         renderItem={({ item }) => {
           return renderList(item);
         }}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
+        onRefresh={() => fetchData()}
+        refreshing={loading}
       />
       <FAB
         style={styles.fab}

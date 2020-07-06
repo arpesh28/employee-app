@@ -28,7 +28,6 @@ app.get('/', (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-  res.send('Welcome to Nodejs');
 });
 
 app.post('/send-data', (req, res) => {
@@ -39,15 +38,15 @@ app.post('/send-data', (req, res) => {
     phone: req.body.phone,
     salary: req.body.salary,
     picture: req.body.picture,
+    about: req.body.about,
     github: req.body.github,
     linkedIn: req.body.linkedIn,
-    about: req.body.about,
   });
   employee
     .save()
     .then((data) => {
       console.log(data);
-      res.send('success');
+      res.send(data);
     })
     .catch((err) => {
       console.log(err);
@@ -57,7 +56,6 @@ app.post('/send-data', (req, res) => {
 app.post('/delete', (req, res) => {
   Employee.findByIdAndRemove(req.body.id)
     .then((data) => {
-      console.log(data);
       res.send(data);
     })
     .catch((err) => {
@@ -78,7 +76,6 @@ app.post('/update', (req, res) => {
     about: req.body.about,
   })
     .then((data) => {
-      console.log(data);
       res.send(data);
     })
     .catch((err) => {
