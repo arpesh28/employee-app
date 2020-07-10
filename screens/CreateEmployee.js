@@ -45,6 +45,7 @@ const CreateEmployee = ({ navigation, route }) => {
 
   const submitData = () => {
     fetch('http://f6fd40ec69db.ngrok.io/send-data', {
+      // Add the ngrok forwarding url here followed by the route '/send-data'
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -73,6 +74,7 @@ const CreateEmployee = ({ navigation, route }) => {
 
   const updateDetails = () => {
     fetch('http://f6fd40ec69db.ngrok.io/update', {
+      // Add the ngrok forwarding url here followed by the route '/update'
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
