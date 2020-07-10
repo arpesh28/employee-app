@@ -152,7 +152,7 @@ const CreateEmployee = ({ navigation, route }) => {
     data.append('upload_preset', 'employeeApp');
     data.append('cloud_name', 'arpesh28');
 
-    fetch('https://api.cloudinary.com/v1_1/arpesh28/image/upload', {
+    fetch('https://api.cloudinary.com/v1_1/your_id_here/image/upload', {
       method: 'post',
       body: data,
     })
