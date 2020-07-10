@@ -6,8 +6,7 @@ require('./Employee');
 
 app.use(bodyParser.json());
 const Employee = mongoose.model('employee');
-const mongoUri =
-  'mongodb://arpesh:arpesh1234@cluster0-shard-00-00.vklxf.mongodb.net:27017,cluster0-shard-00-01.vklxf.mongodb.net:27017,cluster0-shard-00-02.vklxf.mongodb.net:27017/employee?ssl=true&replicaSet=atlas-4zwk9r-shard-0&authSource=admin&retryWrites=true&w=majority'; // Add your mongodb address above
+const mongoUri = // Add your mongodb address here
 
 mongoose.connect(process.env.MONGODB_URI || mongoUri, {
   useNewUrlParser: true,
