@@ -28,7 +28,8 @@ const Profile = (props) => {
   } = props.route.params.item;
 
   const deleteEmployee = () => {
-    fetch('http://12df0411852e.ngrok.io/delete', {
+    fetch('http://f6fd40ec69db.ngrok.io/delete', {
+      // Add the ngrok forwarding url here followed by the route '/delete'
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

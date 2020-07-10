@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
-import { Card, FAB, Title } from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, Alert } from 'react-native';
+import { Card, FAB } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Home = ({ navigation }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { data, loading } = useSelector((state) => {
+    return state;
+  });
 
   const fetchData = () => {
-    fetch('http://12df0411852e.ngrok.io')
+    fetch('http://f6fd40ec69db.ngrok.io') // Add the ngrok forwarding url here
       .then((res) => res.json())
       .then((results) => {
-        setData(results);
-        setLoading(false);
+        // setData(results);
+        // setLoading(false);
+        dispatch({ type: 'ADD_DATA', payload: results });
+        dispatch({ type: 'SET_LOADING', payload: false });
       })
       .catch((err) => {
         Alert.alert('Something went wrong');

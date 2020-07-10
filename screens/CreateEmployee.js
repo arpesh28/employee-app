@@ -44,7 +44,7 @@ const CreateEmployee = ({ navigation, route }) => {
   const [enableshift, setEnableShift] = useState(false);
 
   const submitData = () => {
-    fetch('http://12df0411852e.ngrok.io/send-data', {
+    fetch('http://f6fd40ec69db.ngrok.io/send-data', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const CreateEmployee = ({ navigation, route }) => {
   };
 
   const updateDetails = () => {
-    fetch('http://12df0411852e.ngrok.io/update', {
+    fetch('http://f6fd40ec69db.ngrok.io/update', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
